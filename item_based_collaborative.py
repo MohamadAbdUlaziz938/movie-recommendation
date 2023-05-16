@@ -6,7 +6,7 @@ import numpy as np
 class ItemBasedCollaborative:
     def __init__(self, dataRecommendation: pd.DataFrame) -> None:
         self.knn = None
-        self.dataRecommendation = dataRecommendation
+        self.dataRecommendation = dataRecommendation.copy()
 
     def fit_model(self):
         self.knn = NearestNeighbors(
