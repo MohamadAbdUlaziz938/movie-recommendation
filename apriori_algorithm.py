@@ -11,7 +11,7 @@ def encode_units(k):
     else:
         return 0
 
-class Aprior:
+class Apriori:
     def __init__(self, data: pd.DataFrame) -> None:
         self.recommendation_data = data.applymap(encode_units)
         self.rules = None
