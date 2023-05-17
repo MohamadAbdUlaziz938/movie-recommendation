@@ -25,23 +25,24 @@ class PopularRecommendation:
             .groupby(self.train_data["movieId"])
             .transform("count")
         )
-        # Create a column for the average rating a book has received called 'average_rating'
+        # Create a column for the average rating a movie has received called 'average_rating'
         self.train_data[average_movie_rating] = (
             self.train_data["rating"]
             .groupby(self.train_data["movieId"])
             .transform("mean")
         )
-        # Calculate the average rating for all books
+        # Calculate the average rating for all movies
         self.average_rating = self.train_data["rating"].mean()
-        # Calculate the minimum number of book ratings needs to receive in order to be included in the model
+        # Calculate the minimum number of movie ratings needs to receive in order to be included in the model
         self.min_number_rating = self.train_data[number_of_movie_ratings].quantile(0.90)
+        
         # Filter the dataset based on value m
         self.filtered = self.train_data.copy().loc[
             self.train_data[number_of_movie_ratings] >= self.min_number_rating
         ]
-        # Create a 'score' column and give each book a weighted score
+        # Create a 'score' column and give each movie a weighted score
         self.filtered["score"] = self.filtered.apply(self.weighted_score, axis=1)
-        self.filtered.sample(5)
+        
         return self.filtered
 
     def recommend(self, user_id, num_recommendations=5):
